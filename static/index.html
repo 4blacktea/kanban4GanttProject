@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+<h1><font color="#F56C6C">项目看板</font></h1>
+    <div id="app">
+            <el-divider></el-divider>
+
+        <el-table
+    :data="tableData"
+    stripe
+    style="width: 100%">
+    <el-table-column
+      prop="project"
+      label="项目"
+      width="180">
+        <template slot-scope="scope">
+            <el-link :href="scope.row.link" type="warning" > {{ scope.row.project }} </el-link>
+        </template>
+    </el-table-column>
+    <el-table-column
+      prop="status"
+      label="项目进度"
+      width="180">
+        <template slot-scope="scope">
+            <el-progress :percentage="scope.row.status">{ scope.row.status }aaa</el-progress>
+        </template>
+    </el-table-column>
+    <el-table-column
+      prop="users"
+      label="相关人">
+    </el-table-column>
+            <el-table-column
+      prop="starttime"
+      label="开始时间">
+    </el-table-column>
+            <el-table-column
+      prop="endtime"
+      label="预计结束时间">
+    </el-table-column>
+            <el-table-column
+      prop="weektask"
+      label="风险节点">
+    </el-table-column>
+  </el-table>
+    </div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                tableData: [],
+                percentage: 20
+            }
+        },
+        mounted() {
+            this.getData();
+        },
+        methods: {
+            getData() {
+                fetch('/api')
+                    .then(response => response.json())
+                    .then(data => this.tableData = data.data);
+
+            }
+        }
+    })
+</script>
+
+</html>
